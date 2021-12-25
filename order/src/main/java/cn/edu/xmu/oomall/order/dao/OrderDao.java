@@ -287,26 +287,6 @@ public class OrderDao {
         }
     }
 
-    public ReturnObject insertOrder(Order order){
-        try {
-            OrderPo orderPo = cloneVo(order, OrderPo.class);
-            orderPoMapper.insert(orderPo);
-            return new ReturnObject(orderPo);
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            return new ReturnObject(ReturnNo.INTERNAL_SERVER_ERR,e.getMessage());
-        }
-    }
-    public ReturnObject insertOrderItem(OrderItem orderItem){
-        try {
-            OrderItemPo orderItemPo = cloneVo(orderItem, OrderItemPo.class);
-            orderItemPoMapper.insert(orderItemPo);
-            return new ReturnObject(orderItemPo);
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            return new ReturnObject(ReturnNo.INTERNAL_SERVER_ERR,e.getMessage());
-        }
-    }
 
     public ReturnObject getOrderByOrderSn(String orderSn){
         try {

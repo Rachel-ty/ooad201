@@ -926,11 +926,11 @@ public class OrderService {
         refundRecVo.setDocumentId(newOrder.getOrderSn());
         refundRecVo.setDocumentType(RefundType.ORDER.getCode());
         //查订单对应的payment
-        InternalReturnObject<PageVo<RefundRetVo>> returnObject1 = transactionService.listRefund(0L, newOrder.getOrderSn(), null, null, null, 1, 10);
-        if(returnObject1.getErrno().equals(ReturnNo.OK.getCode())){
+        InternalReturnObject<PageVo<PaymentRetVo>> returnObject1 = transactionService.listPayment(0L, newOrder.getOrderSn(), null, null, null, 1, 10);
+        if(!returnObject1.getErrno().equals(ReturnNo.OK.getCode())){
             return new ReturnObject(returnObject1);
         }
-        List<RefundRetVo> list = returnObject1.getData().getList();
+        List<PaymentRetVo> list = returnObject1.getData().getList();
         refundRecVo.setPaymentId(list.get(0).getId());
         InternalReturnObject ret=transactionService.requestRefund(refundRecVo);
 //        if(!ret.getErrno().equals(ReturnNo.OK.getCode()))
@@ -1040,6 +1040,7 @@ public class OrderService {
         order.setOriginPrice(0L);
         order.setPoint(0L);
         order.setPid(0L);
+        order.setCustomerId(loginUserId);
         order.setState(OrderState.FINISH_PAY.getCode());
         Common.setPoCreatedFields(order, loginUserId, loginUserName);
         ReturnObject ret = orderDao.createOrder(order);
